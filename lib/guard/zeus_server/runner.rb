@@ -13,15 +13,16 @@ module Guard
         zeus_options = [
           '-d',
           '-p', port,
-          '--pid', pid_file,
+          "--pid=#{pid_file}"
         ]
 
+        puts "zeus server #{zeus_options.join(' ')}"
         system "zeus server #{zeus_options.join(' ')}"
       end
 
       def stop
         if has_pid?
-          kill "INT", pid
+          system %{kill -SIGINT #{pid}}
         end
       end
 

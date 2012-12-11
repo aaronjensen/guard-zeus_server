@@ -1,9 +1,10 @@
 require 'guard'
 require 'guard/guard'
+require 'guard/zeus_server/version'
 
 module Guard
   class ZeusServer < Guard
-    require 'guard/zeus_server/runner'
+    autoload :Runner, 'guard/zeus_server/runner'
     attr_accessor :options, :runner
 
     DEFAULT_OPTIONS = {
@@ -16,8 +17,8 @@ module Guard
     # @param [Hash] options the custom Guard options
     def initialize(watchers = [], options = {})
       super
-      @options = DEFAULT_OPTIONS.merge(options)
-      runner = Runner.new
+      self.options = DEFAULT_OPTIONS.merge(options)
+      self.runner = Runner.new self.options
     end
 
     # Call once when Guard starts. Please override initialize method to init stuff.

@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'guard/zeus_server/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "guard-zeus-server"
+  gem.name          = "guard-zeus_server"
   gem.version       = Guard::Zeus::Server::VERSION
   gem.authors       = ["Aaron Jensen"]
   gem.email         = ["aaronjensen@gmail.com"]

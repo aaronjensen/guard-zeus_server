@@ -10,18 +10,17 @@ describe Guard::ZeusServer::Runner do
 
   before do
     runner.stub :system
-    runner.stub :kill
   end
 
   describe "#start" do
     it "should start zeus server" do
-      runner.should_receive(:system).with("zeus server -d -p 3000 --pid #{pid_file}")
+      runner.should_receive(:system).with("zeus server -d -p 3000 --pid=#{pid_file}")
 
       runner.start
     end
 
     it "should set the pid" do
-      command_should_include("--pid #{pid_file}")
+      command_should_include("--pid=#{pid_file}")
 
       runner.start
     end
@@ -48,7 +47,7 @@ describe Guard::ZeusServer::Runner do
       FileUtils.mkdir_p File.dirname(pid_file)
       File.open(pid_file, 'w') { |file| file.print pid }
 
-      runner.should_receive(:kill).with("INT", pid)
+      command_should_include("kill -SIGINT 54444")
 
       runner.stop
     end
@@ -65,7 +64,7 @@ describe Guard::ZeusServer::Runner do
 
   def command_should_include(part)
     runner.should_receive(:system).with do |command|
-      command.should match /\ #{part}\b/
+      command.should match /#{part}\b/
     end
   end
 end
