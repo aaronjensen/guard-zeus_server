@@ -54,6 +54,15 @@ describe Guard::ZeusServer::Runner do
     end
   end
 
+  describe "#restart" do
+    it "should stop then start" do
+      runner.should_receive(:stop).ordered
+      runner.should_receive(:start).ordered
+
+      runner.restart
+    end
+  end
+
   def command_should_include(part)
     runner.should_receive(:system).with do |command|
       command.should match /\ #{part}\b/

@@ -25,6 +25,11 @@ module Guard
         end
       end
 
+      def restart
+        stop
+        start
+      end
+
       private
       def pid
         has_pid? ? File.read(pid_file).to_i : nil
