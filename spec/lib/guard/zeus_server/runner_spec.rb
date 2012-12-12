@@ -40,14 +40,28 @@ describe Guard::ZeusServer::Runner do
       runner.start
     end
 
+    it "should delete the pidfile if it's not running" do
+      create_pid_file(54444)
+      runner.stub(:system).with("kill -0 54444") { false }
 
+      runner.start
+      File.file?(pid_file).should_not be
+    end
+
+    it "should not start the server if it is already running" do
+      create_pid_file(54444)
+      runner.stub(:system).with("kill -0 54444") { true }
+      runner.should_not_receive(:system).with do |command|
+        command =~ /zeus/
+      end
+
+      runner.start
+    end
   end
 
   describe "#stop" do
     it "should kill an existing pid" do
-      pid = 54444
-      FileUtils.mkdir_p File.dirname(pid_file)
-      File.open(pid_file, 'w') { |file| file.print pid }
+      create_pid_file(54444)
 
       command_should_include("kill -SIGINT 54444")
 
@@ -68,5 +82,10 @@ describe Guard::ZeusServer::Runner do
     runner.should_receive(:system).with do |command|
       command.should match /#{part}\b/
     end
+  end
+
+  def create_pid_file(pid)
+    FileUtils.mkdir_p File.dirname(pid_file)
+    File.open(pid_file, 'w') { |file| file.print pid }
   end
 end

@@ -10,6 +10,9 @@ module Guard
       end
 
       def start
+        delete_abandonded_pid_file
+        return if has_pid?
+
         zeus_options = [
           '-d',
           '-p', port,
@@ -31,6 +34,13 @@ module Guard
       end
 
       private
+      def delete_abandonded_pid_file
+        return unless has_pid?
+        return if system("kill -0 #{pid}")
+
+        FileUtils.rm pid_file
+      end
+
       def pid
         has_pid? ? File.read(pid_file).to_i : nil
       end
