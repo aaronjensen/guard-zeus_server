@@ -24,14 +24,14 @@ module Guard
     # Call once when Guard starts. Please override initialize method to init stuff.
     # @raise [:task_has_failed] when start has failed
     def start
-      UI.info "starting!"
+      UI.info "Guard::ZeusServer is starting \"zeus #{options[:command]}\" on port #{options[:port]}"
       runner.start
     end
 
     # Called when `stop|quit|exit|s|q|e + enter` is pressed (when Guard quits).
     # @raise [:task_has_failed] when stop has failed
     def stop
-      UI.info "stopping!"
+      UI.info "Guard::ZeusServer is stopping \"zeus #{options[:command]}\" on port #{options[:port]}"
       runner.stop
     end
 
@@ -39,7 +39,7 @@ module Guard
     # This method should be mainly used for "reload" (really!) actions like reloading passenger/spork/bundler/...
     # @raise [:task_has_failed] when reload has failed
     def reload
-      UI.info "reloading!"
+      UI.info "Guard::ZeusServer is restarting \"zeus #{options[:command]}\" on port #{options[:port]}"
       runner.restart
     end
 
