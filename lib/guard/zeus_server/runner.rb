@@ -11,7 +11,7 @@ module Guard
 
       def start
         delete_abandonded_pid_file
-        return if has_pid?
+        return true if has_pid?
 
         zeus_options = [
           '-d',
@@ -25,6 +25,7 @@ module Guard
 
       def stop
         kill if has_pid?
+        true
       end
 
       def restart

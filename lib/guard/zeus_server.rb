@@ -24,23 +24,29 @@ module Guard
     # Call once when Guard starts. Please override initialize method to init stuff.
     # @raise [:task_has_failed] when start has failed
     def start
-      UI.info "Guard::ZeusServer is starting \"zeus #{options[:command]}\" on port #{options[:port]}"
-      runner.start
+      UI.info "Guard::ZeusServer is starting \"zeus #{options[:command]}\" on port #{options[:port]}."
+      unless runner.start
+        UI.warning "Guard::ZeusServer failed to start \"zeus #{options[:command]}\"."
+      end
     end
 
     # Called when `stop|quit|exit|s|q|e + enter` is pressed (when Guard quits).
     # @raise [:task_has_failed] when stop has failed
     def stop
-      UI.info "Guard::ZeusServer is stopping \"zeus #{options[:command]}\" on port #{options[:port]}"
-      runner.stop
+      UI.info "Guard::ZeusServer is stopping \"zeus #{options[:command]}\" on port #{options[:port]}."
+      unless runner.stop
+        UI.warning "Guard::ZeusServer failed to stop \"zeus #{options[:command]}\"."
+      end
     end
 
     # Called when `reload|r|z + enter` is pressed.
     # This method should be mainly used for "reload" (really!) actions like reloading passenger/spork/bundler/...
     # @raise [:task_has_failed] when reload has failed
     def reload
-      UI.info "Guard::ZeusServer is restarting \"zeus #{options[:command]}\" on port #{options[:port]}"
-      runner.restart
+      UI.info "Guard::ZeusServer is restarting \"zeus #{options[:command]}\" on port #{options[:port]}."
+      unless runner.restart
+        UI.warning "Guard::ZeusServer failed to restart \"zeus #{options[:command]}\"."
+      end
     end
 
     # Called when just `enter` is pressed
