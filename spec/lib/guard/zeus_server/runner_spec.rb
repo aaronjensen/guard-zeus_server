@@ -9,31 +9,33 @@ describe Guard::ZeusServer::Runner do
   let(:pid_file) { File.expand_path("tmp/pids/zeus_server.pid") }
 
   before do
+    FileUtils.mkdir_p "/project"
+    Dir.chdir "/project"
     runner.stub :system
   end
 
   describe "#start" do
     it "should start zeus server" do
-      runner.should_receive(:system).with("zeus server -d -p 3000 --pid=#{pid_file}")
+      runner.should_receive(:system).with("cd /project; zeus server -d -p 3000 -P #{pid_file}")
 
       runner.start
     end
 
     it "should set the pid" do
-      command_should_include("--pid=#{pid_file}")
+      command_should_include(" -P #{pid_file}")
 
       runner.start
     end
 
     it "should be daemonized" do
-      command_should_include("-d")
+      command_should_include(" -d")
 
       runner.start
     end
 
     it "should let you change the port" do
       options[:port] = 1234
-      command_should_include("-p 1234")
+      command_should_include(" -p 1234")
 
       runner.start
     end

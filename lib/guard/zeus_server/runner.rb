@@ -13,11 +13,10 @@ module Guard
         zeus_options = [
           '-d',
           '-p', port,
-          "--pid=#{pid_file}"
+          '-P', pid_file,
         ]
 
-        puts "zeus server #{zeus_options.join(' ')}"
-        system "zeus server #{zeus_options.join(' ')}"
+        system "cd #{Dir.pwd}; zeus server #{zeus_options.join(' ')}"
       end
 
       def stop
