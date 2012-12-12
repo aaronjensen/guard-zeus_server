@@ -15,6 +15,9 @@ describe Guard::ZeusServer::Runner do
   end
 
   describe "#start" do
+    before do
+      runner.stub(:wait_until) { true }
+    end
     it "should start zeus server" do
       runner.should_receive(:system).with("cd /project; zeus server -d -p 3000 -P #{pid_file}")
 
@@ -63,7 +66,10 @@ describe Guard::ZeusServer::Runner do
     it "should kill an existing pid" do
       create_pid_file(54444)
 
-      command_should_include("kill -SIGINT 54444")
+      runner.should_receive(:system).with("kill -SIGINT 54444") do
+        FileUtils.rm pid_file
+      end
+      runner.stub(:system).with("kill 0 54444") { false }
 
       runner.stop
     end

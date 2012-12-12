@@ -20,12 +20,11 @@ module Guard
         ]
 
         system "cd #{Dir.pwd}; zeus server #{zeus_options.join(' ')}"
+        wait_until { has_pid? }
       end
 
       def stop
-        if has_pid?
-          system %{kill -SIGINT #{pid}}
-        end
+        kill if has_pid?
       end
 
       def restart
@@ -34,14 +33,41 @@ module Guard
       end
 
       private
+      def kill
+        pid = read_pid
+        system "kill -SIGINT #{pid}"
+
+        unless wait_until { !has_pid? }
+          system "kill -SIGKILL #{pid}"
+          delete_pid_file
+        end
+      end
+
+      def running?(pid)
+        system "kill 0 #{pid}"
+      end
+
+      def wait_until(&block)
+        thread = Thread.new do
+          until block.call
+            sleep 0.1
+          end
+        end
+        !!thread.join(10)
+      end
+
       def delete_abandonded_pid_file
         return unless has_pid?
-        return if system("kill -0 #{pid}")
+        return if system("kill -0 #{read_pid}")
 
+        delete_pid_file
+      end
+
+      def delete_pid_file
         FileUtils.rm pid_file
       end
 
-      def pid
+      def read_pid
         has_pid? ? File.read(pid_file).to_i : nil
       end
 
