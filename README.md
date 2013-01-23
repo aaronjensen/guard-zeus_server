@@ -1,6 +1,6 @@
 # Guard::Zeus::Server
 
-TODO: Write a gem description
+Starts/stops/restarts your rails server via zeus.
 
 ## Installation
 
@@ -18,7 +18,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Run:
+
+    $ guard init zeus_server
+
+Modify the `Guardfile` to your heart's content.
+
+Options:
+
+  * `:port` is the port number to pass to `zeus server`. Defaults to `3000`.
+  * `:command` is the zeus command to run. Defaults to `server`.
 
 ## Contributing
 
