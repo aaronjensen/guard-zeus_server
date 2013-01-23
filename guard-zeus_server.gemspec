@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Guard::Zeus::Server::VERSION
   gem.authors       = ["Aaron Jensen"]
   gem.email         = ["aaronjensen@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Guard for "zeus server"}
+  gem.summary       = %q{Automatically starts/stops/restarts "zeus server" with guard.}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
