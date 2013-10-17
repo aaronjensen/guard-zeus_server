@@ -9,7 +9,8 @@ module Guard
 
     DEFAULT_OPTIONS = {
       :port => 3000,
-      :command => "server"
+      :command => "server",
+      :run_without_bundler => false,
     }
 
     # Initialize a Guard.

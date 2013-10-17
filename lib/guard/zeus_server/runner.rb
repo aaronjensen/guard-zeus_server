@@ -18,8 +18,13 @@ module Guard
           '-p', port,
           '-P', pid_file,
         ]
-
-        system "cd #{Dir.pwd}; zeus server #{zeus_options.join(' ')}"
+        command = "cd #{Dir.pwd}; zeus server #{zeus_options.join(' ')}"
+        if run_without_bundler
+          require 'bundler'
+          Bundler.clean_system command
+        else
+          system command
+        end
         wait_until { has_pid? }
       end
 
@@ -82,6 +87,10 @@ module Guard
 
       def port
         options.fetch(:port)
+      end
+
+      def run_without_bundler
+        options.fetch(:run_without_bundler)
       end
     end
   end

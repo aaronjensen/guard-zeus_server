@@ -28,6 +28,8 @@ Options:
 
   * `:port` is the port number to pass to `zeus server`. Defaults to `3000`.
   * `:command` is the zeus command to run. Defaults to `server`.
+  * `:run_without_bundler` -- defaults to false. set it to true if you are running guard inside bundler,
+  but you don't want to run zeus inside bundler.
 
 ## Contributing
 
