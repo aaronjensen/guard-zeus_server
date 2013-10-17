@@ -6,7 +6,7 @@ Starts/stops/restarts your rails server via zeus.
 
 Add this line to your application's Gemfile:
 
-    gem 'guard-zeus-server'
+    gem 'guard-zeus_server'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install guard-zeus-server
+    $ gem install guard-zeus_server
 
 ## Usage
 
